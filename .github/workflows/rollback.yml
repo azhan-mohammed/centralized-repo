@@ -5,8 +5,31 @@ on:
 
 jobs:
   centralized_rollback:
+    if: github.ref == 'refs/heads/develop'
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write
+
     steps:
-      - name: Start Rollback
-        run: echo "Centralized Rollback Workflow Executed Successfully!"
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Revert Latest Commit
+        run: |
+          git revert --no-edit HEAD
+
+      - name: Push Changes
+        run: |
+          git push origin HEAD
+
+    # steps:
+    #   - name: Start Rollback
+    #     run: echo "Centralized Rollback Workflow Executed Successfully!"
