@@ -22,9 +22,16 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      - name: Revert Latest Commit
+      - name: Find Latest Merge Commit
+        id: latest_merge
         run: |
-          git revert --no-edit HEAD
+          MERGE_COMMIT=$(git log --merges --format="%H" -1)
+          echo "Latest merge commit: $MERGE_COMMIT"
+          echo "MERGE_COMMIT=$MERGE_COMMIT" >> $GITHUB_ENV
+
+      - name: Revert Latest Merge Commit
+        run: |
+          git revert -m 1 --no-edit $MERGE_COMMIT
 
       - name: Push Changes
         run: |
