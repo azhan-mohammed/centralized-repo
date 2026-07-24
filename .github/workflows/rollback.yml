@@ -1,0 +1,12 @@
+name: Centralized Rollback
+
+on:
+  workflow_call:
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Start Rollback
+        run: echo "Centralized Rollback Workflow Executed Successfully!"
