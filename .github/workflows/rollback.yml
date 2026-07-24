@@ -3,13 +3,13 @@ name: Centralized Rollback
 on:
   workflow_call:
 
+permissions:
+  contents: write
+
 jobs:
   centralized_rollback:
     if: github.ref == 'refs/heads/develop'
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: write
 
     steps:
       - name: Checkout Repository
